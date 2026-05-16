@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "i-Buddy Demo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pybuddylib.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "i-Buddy HTTP Server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/http/server.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

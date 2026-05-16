@@ -120,17 +120,23 @@ class iBuddyDevice:
     except NoBuddyException as e:
       raise NoBuddyException()
 
+  _sending = False
+
   def __send(self, inp):
     """ send your command to the device """
     try:
       self.dev.handle.controlMsg(0x21, 0x09, self.SETUP, 0x02, 0x01)
       self.dev.handle.controlMsg(0x21, 0x09, self.MESS+(inp,), 0x02, 0x01)
     except usb.USBError:
-        if DEBUG:
-          self.__init__()
-          #raise
+        if not self._sending:
+          self._sending = True
+          try:
+            self.__init__()
+          finally:
+            self._sending = False
         else:
-          self.__init__()
+          log.warning("__send failed during __init__, giving up")
+          raise
 
   def doCmd(self, seconds=WAITTIME):
     """ send the command specified by the current command """
