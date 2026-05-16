@@ -1,4 +1,4 @@
-# 👼 i-Buddy — pybuddy2
+# i-Buddy — pybuddy2
 
 > Control your i-Buddy USB desk pet from Python or your browser.
 
@@ -67,4 +67,4 @@ buddy.doReset()
 
 ## Credits
 
-Based on [pybuddy](http://code.google.com/p/pybuddy/) by Jose.Carlos.Luna and luis.peralta.
+Based on [pybuddy](https://github.com/ewall/pybuddy) by Jose.Carlos.Luna and luis.peralta.
