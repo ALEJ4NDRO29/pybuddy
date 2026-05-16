@@ -15,6 +15,15 @@
 import logging
 from time import sleep
 from sys import exit
+import os
+import glob
+import sys as _sys
+
+if _sys.platform == 'win32':
+    for d in glob.glob(r'C:\Program Files (x86)\Steam') + [r'C:\Windows\System32']:
+        if os.path.isdir(d):
+            os.environ['PATH'] = d + os.pathsep + os.environ.get('PATH', '')
+
 import usb
 
 ### Global Configuration
@@ -74,7 +83,7 @@ class UsbDevice:
 ### iBuddy Device Class
 class iBuddyDevice:
   USB_VENDOR  = 0x1130
-  USB_PRODUCT = int(0x0001)
+  USB_PRODUCT = int(0x0005)
   BATTERY     = 0
   SETUP       = (0x22, 0x09, 0x00, 0x02, 0x01, 0x00, 0x00, 0x00)
   MESS        = (0x55, 0x53, 0x42, 0x43, 0x00, 0x40, 0x02)
@@ -108,7 +117,7 @@ class iBuddyDevice:
       self.dev.handle.reset()
       self.resetCmd()
       self.doCmd()
-    except NoBuddyException, e:
+    except NoBuddyException as e:
       raise NoBuddyException()
 
   def __send(self, inp):
@@ -251,7 +260,7 @@ if __name__ == '__main__':
   log.info("Starting search...")
   try:
       buddy = iBuddyDevice()
-  except NoBuddyException, e:
+  except NoBuddyException as e:
       log.exception("No iBuddy device found!")
       exit(1)
 

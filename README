@@ -1,28 +1,65 @@
-pybuddy: Python daemon to control your i-buddy USB device
+pybuddy2: Python library to control your i-Buddy USB device
+============================================================
 
-by luis.peralta, Jose.Carlos.Luna, and leandro.vazquez
-released under MIT License (http://www.opensource.org/licenses/mit-license.php)
+Based on pybuddy (http://code.google.com/p/pybuddy/) by Jose.Carlos.Luna, luis.peralta
+Fork: ewall 2010, pybuddy2 2026
 
------
+DESCRIPTION
+-----------
+Control an i-Buddy (USB angel figure originally for Windows Live Messenger)
+from Python: change head color, blink heart, flap wings, swivel body.
 
-Description:
-Instead of using your i-buddy (http://www.i-buddy.com) with MSN Messenger, why not use it to show other info? With pybuddy, you can control your i-buddy to do any of the supported actions: change head color, blink its heart, beat its wings, etc. Example uses are: monitoring a website traffic (404s in red, 500s beating wings, 200s in green), showing your project's continuous integration process, ...and so on.
 
-Dependencies:
-The daemon is written in python, runs on Linux and needs python-usb. To install on Debian, use `apt-get install python-usb`; on RedHat, `yum install pyusb`. (Or `easy_install python-usb`?)
+WINDOWS SETUP (2026+)
+---------------------
 
-Software using pybuddy:
-    Beside the scripts published in the contrib directory, there is other software using pybuddy:
-    * Jabbim (http://jabbim.cz/), a Jabber/XMPP client that mimics i-buddy MSN Messenger behaviour
-    * AMSN-iBuddy (http://github.com/frangor/amsn-iBuddy/blob/master), an AMSN plugin
+1. Install Python 3.10+ and pyusb:
+   pip install pyusb
 
-Other versions:
-    * pybuddy-dx (http://code.google.com/p/pybuddy-dx/) if you own a DX (DealExtreme) ebuddy
+2. Install WinUSB driver for the i-Buddy using Zadig:
+   - Download Zadig: https://zadig.akeo.ie/
+   - Run as Administrator
+   - Options -> List All Devices
+   - Select "i-Buddy" (VID 1130, PID 0005)
+   - Choose "WinUSB" as driver
+   - Click "Install Driver" (do this for both Interface 0 and Interface 1)
 
-------
+3. Install a libusb DLL for pyusb to use:
+   - Download from https://libusb.info/ or install libusb-win32
+   - Ensure libusb-1.0.dll is in a PATH directory
 
-Forked from Google Code's SVN at http://code.google.com/p/pybuddy/
+4. Usage:
+   from pybuddylib import iBuddyDevice
 
-Working on a non-daemon version (currently "my_pybuddy.py") and library that can be used elsewhere...
+   buddy = iBuddyDevice()
+   buddy.doColorName(iBuddyDevice.RED, 0.5)
+   buddy.doFlap(3, 0.2)
+   buddy.doHeartbeat(5, 0.3)
 
-   ~ewall 2010-09-01
+
+LINUX SETUP
+-----------
+   apt-get install python-usb    (Debian/Ubuntu)
+   yum install pyusb             (Red Hat/Fedora)
+
+   Then just run without any driver changes.
+
+
+API
+---
+Colors:      RED, GREEN, BLUE, YELLOW, PURPLE, CYAN, WHITE
+Actions:     doColorRGB(r,g,b), doColorName(tuple), doFlap(), doWiggle(),
+             doHeartbeat(), doReset()
+Controls:    setHeadColors(), setHeart(), setWing(UP|DOWN), setSwivel(LEFT|RIGHT)
+
+
+KNOWN ISSUES
+------------
+- On Windows, the HID driver blocks direct USB access. WinUSB driver (via Zadig) is required.
+- The daemon (src/pybuddy-daemon.py) is Unix-only (uses fork(), pwd).
+- Device PID on tested hardware is 0x0005; older units may use 0x0001 or 0x0002.
+
+
+LICENSE
+-------
+MIT License

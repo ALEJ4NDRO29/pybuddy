@@ -53,7 +53,7 @@ class BuddyDevice:
       self.pumpMessage()
       self.battery=battery
       self.product=buddy_product
-    except NoBuddyException, e:
+    except NoBuddyException as e:
       raise NoBuddyException()
       
 # Commands are sent as disabled bits
@@ -331,7 +331,7 @@ config = RawConfigParser(
               'user': 'nobody',
               'loglevel': 'info',
               'logfile': 'console',
-              'usbproduct': 0002,
+              'usbproduct': 5,
              }
 )
 
@@ -373,7 +373,7 @@ if config_read:
 log.info("Starting search...")
 try:
     buddy=BuddyDevice(0, int(config.get("system", "usbproduct")))
-except NoBuddyException, e:
+except NoBuddyException as e:
     log.error("Not found!")
     sys.exit(1)
 
