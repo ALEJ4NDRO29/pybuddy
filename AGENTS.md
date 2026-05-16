@@ -44,6 +44,15 @@ The command byte uses **inverted bit logic**: `0` = feature ON, `1` = OFF.
 - No test runner, no CI, no linter/formatter config
 - Validate by running `python pybuddylib.py` with the i-Buddy connected
 
+## HTTP server
+
+- `python http/server.py` — starts control panel on `http://0.0.0.0:8888`
+- No dependencies (uses `http.server` from stdlib)
+- Endpoints: `/api/color/<name>`, `/api/flap`, `/api/wiggle`, `/api/heartbeat`,
+  `/api/party`, `/api/demo`, `/api/reset`, `/api/heart/<on|off>`,
+  `/api/wing/<up|down>`, `/api/swivel/<left|right>`
+- Config via env vars: `IBUDDY_HOST` (default `0.0.0.0`), `IBUDDY_PORT` (default `8888`)
+
 ## Outdated / broken files
 
 - `contrib/usbenum.py` — Python 2 syntax (`print` statement), not fixed
